@@ -1,0 +1,33 @@
+{
+  "name": "onnet-talents--back--main",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec tsx server.ts",
+    "dev:w": "tsx watch server.ts",
+    "build": "tsup src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.16.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.0.7",
+    "file": "^0.2.2",
+    "multer": "^1.4.5-lts.1",
+    "system": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/multer": "^1.4.7",
+    "nodemon": "^3.0.1",
+    "prettier": "^2.8.8",
+    "prisma": "^5.1.1",
+    "tsup": "^7.0.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.3"
+  },
+  "description": ""
+}

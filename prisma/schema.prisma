@@ -1,0 +1,121 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+}
+
+model Applicant {
+  id               Int        @id @default(autoincrement())
+  name             String
+  email            String
+  phone            String
+  cpf              String
+  sexo             String
+  rg               String
+  schooling        Int
+  employmentStatus Int
+  progress         Int
+  birthDate        DateTime
+  note             String
+  create_at        DateTime   @default(now())
+  sectorId         Int?
+  locationId       Int?
+  addressId        Int?
+  Sector           Sector?    @relation(fields: [sectorId], references: [id])
+  Location         Location?  @relation(fields: [locationId], references: [id])
+  Address          Address?   @relation(fields: [addressId], references: [id])
+  Document         Document[]
+  Process          Process[]
+}
+
+model Document {
+  id          Int       @id @default(autoincrement())
+  type        Int
+  path        String
+  applicantId Int
+  applicant   Applicant @relation(fields: [applicantId], references: [id])
+}
+
+model Sector {
+  id          Int         @id @default(autoincrement())
+  name_sector String
+  note        String?
+  create_at   DateTime    @default(now())
+  functionId  Int?
+  Function    Function?   @relation(fields: [functionId], references: [id])
+  Applicant   Applicant[]
+}
+
+model Function {
+  id        Int      @id @default(autoincrement())
+  function  String
+  create_at DateTime @default(now())
+  active    Boolean
+  Sector    Sector[]
+}
+
+model Location {
+  id        Int         @id @default(autoincrement())
+  unit      String
+  note      String?
+  create_at DateTime    @default(now())
+  Applicant Applicant[]
+}
+
+model Address {
+  id             Int          @id @default(autoincrement())
+  addres_name    String
+  cep            String?
+  create_at      DateTime     @default(now())
+  neighborhoodId Int
+  neighborhood   Neighborhood @relation(fields: [neighborhoodId], references: [id])
+  Applicant      Applicant[]
+}
+
+model Neighborhood {
+  id                Int       @id @default(autoincrement())
+  neighborhood_name String
+  create_at         DateTime  @default(now())
+  cityId            Int
+  city              City      @relation(fields: [cityId], references: [id])
+  addresses         Address[]
+}
+
+model City {
+  id           Int            @id @default(autoincrement())
+  city_name    String
+  ibge         String
+  uf           String         @db.Char(2)
+  create_at    DateTime       @default(now())
+  Neighborhood Neighborhood[]
+}
+
+model Stage {
+  id        Int       @id @default(autoincrement())
+  stage     String    @db.VarChar(250)
+  note      String?
+  create_at DateTime  @default(now())
+  active    Boolean
+  Processes Process[]
+}
+
+model Process {
+  id           Int       @id @default(autoincrement())
+  date_process DateTime
+  note         String?
+  create_at    DateTime  @default(now())
+  active       Boolean
+  stageId      Int
+  applicantId  Int
+  stage        Stage     @relation(fields: [stageId], references: [id])
+  applicant    Applicant @relation(fields: [applicantId], references: [id])
+}

@@ -1,0 +1,95 @@
+import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+const { findIdNeighborhood } = require('./helpers/neighborhoodServices');
+const { checkNeighborhoodExists } = require('./helpers/neighborhoodServices');
+const { findIdCity } = require('./helpers/cityServices');
+
+//List
+export const listNeighborhoods = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const neighborhoods = await prisma.neighborhood.findMany({
+      include: {
+        city: true,
+      },
+    });
+    res.json(neighborhoods);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Erro ao buscar bairros.' });
+  }
+};
+//Create
+export const createNeighborhood = async (req: Request, res: Response): Promise<void> => {
+  const { neighborhood_name, cityId } = req.body;
+  try {
+    const cityExisting = await findIdCity(cityId);
+    if (!cityExisting) {
+      res.status(400).json({ error: `A cidade com ID ${cityId} não existe.` });
+      return;
+    }
+
+    const checkNeighborhood = await checkNeighborhoodExists(neighborhood_name, cityId);
+    if (checkNeighborhood){
+      res.status(400).json({error: `O Bairro ${neighborhood_name} para cidade de código ${cityId} já existe.`});
+      return;
+    }
+
+    const newNeighborhood = await prisma.neighborhood.create({
+      data: {
+        neighborhood_name,
+        cityId,
+      },
+    });
+    res.json(newNeighborhood);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao cadastrar o bairro.' });
+  }
+};
+//Update
+export const updateNeighborhood = async (req: Request, res: Response): Promise<void> => {
+  const neighborhoodId = parseInt(req.params.id);
+  const {neighborhood_name, cityId } = req.body;
+ 
+  try {
+    const neighborhoodExists = await findIdNeighborhood(neighborhoodId);
+    if (!neighborhoodExists){
+      res.status(400).json({error: `O bairro com ID ${ neighborhoodId} não existe.`});
+      return;
+    }
+
+    const cityExists = await findIdCity(cityId);
+    if (!cityExists){
+      res.status(400).json({error:`A cidade com Id ${ cityId} não existe.`});
+      return;
+    }
+
+    const updateNeighborhood = await prisma.neighborhood.update({
+      where: {id: neighborhoodId},
+      data:{
+        neighborhood_name,
+        cityId,
+      },
+    });
+    res.json(updateNeighborhood);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao atualizar o bairro.'});
+  }
+};
+//Delete
+export const deleteNeighborhood =async (req: Request, res: Response): Promise<void> => {
+  const id = parseInt(req.params.id);
+  try {
+    await prisma.neighborhood.delete({
+      where: {id},
+    });
+    res.json({message: `Bairro removido com sucesso.`});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao tentar remover o bairro.'});
+  }
+};
