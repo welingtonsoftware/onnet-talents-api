@@ -23,18 +23,18 @@ model Applicant {
   rg               String
   schooling        Int
   employmentStatus Int
-  progress         Int
   birthDate        DateTime
   note             String
   create_at        DateTime   @default(now())
   sectorId         Int?
   locationId       Int?
   addressId        Int?
+  stageId          Int?
   Sector           Sector?    @relation(fields: [sectorId], references: [id])
   Location         Location?  @relation(fields: [locationId], references: [id])
   Address          Address?   @relation(fields: [addressId], references: [id])
+  Stage            Stage?     @relation(fields: [stageId], references: [id])
   Document         Document[]
-  Process          Process[]
 }
 
 model Document {
@@ -100,22 +100,18 @@ model City {
 }
 
 model Stage {
-  id        Int       @id @default(autoincrement())
-  stage     String    @db.VarChar(250)
+  id        Int         @id @default(autoincrement())
+  stage     String      @db.VarChar(250)
   note      String?
-  create_at DateTime  @default(now())
+  create_at DateTime    @default(now())
+  value     String?
   active    Boolean
-  Processes Process[]
+  Applicant Applicant[]
 }
 
-model Process {
-  id           Int       @id @default(autoincrement())
-  date_process DateTime
-  note         String?
-  create_at    DateTime  @default(now())
-  active       Boolean
-  stageId      Int
-  applicantId  Int
-  stage        Stage     @relation(fields: [stageId], references: [id])
-  applicant    Applicant @relation(fields: [applicantId], references: [id])
+model Search {
+  id        Int      @id @default(autoincrement())
+  type      String   @db.VarChar(250)
+  active    Boolean
+  create_at DateTime @default(now())
 }

@@ -9,15 +9,16 @@ const prisma = new PrismaClient();
 export const listApplicant = async (req: Request, res: Response) => {
   try {
     const applicants = await prisma.applicant.findMany({
-      include:{
+      include: {
         Document: true,
         Sector: true,
         Address: true,
+        Stage: true,
       },
     });
     //mapeamento de applicants object com ou sem documents
     const applicantsWithDocuments = applicants.map((applicant) => {
-      return{
+      return {
         id: applicant.id,
         name: applicant.name,
         email: applicant.email,
@@ -27,14 +28,13 @@ export const listApplicant = async (req: Request, res: Response) => {
         rg: applicant.rg,
         schooling: applicant.schooling,
         employmentStatus: applicant.employmentStatus,
-        progress: applicant.progress,
         birthDate: applicant.birthDate,
         note: applicant.note,
         create_at: applicant.create_at,
         Documents: applicant.Document, // Array de documentos relacionados
         Sector: applicant.Sector, // Setor relacionado
-        Address: applicant.Address
-
+        Address: applicant.Address,
+        Stage: applicant.Stage,
       };
     });
     res.json(applicantsWithDocuments);
@@ -54,11 +54,11 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
       rg,
       schooling,
       employmentStatus,
-      progress,
       birthDate,
       note,
       sectorId,
-      addressId } = req.body;
+      addressId,
+      stageId } = req.body;
     console.log('Received data: ', name, email, phone)
     if (!name) {
       res.status(400).json({ error: 'Por favor, informar campos obrigatórios (name)' });
@@ -74,11 +74,11 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
         rg,
         schooling,
         employmentStatus,
-        progress,
         birthDate,
         note,
         sectorId,
         addressId,
+        stageId,
       },
     });
 
@@ -99,11 +99,11 @@ export const updateApplicant = async (req: Request, res: Response): Promise<void
     rg,
     schooling,
     employmentStatus,
-    progress,
     birthDate,
     note,
-   sectorId, 
-   addressId } = req.body;
+    sectorId,
+    addressId,
+    stageId } = req.body;
 
   try {
     //Verificar id applicant
@@ -124,11 +124,11 @@ export const updateApplicant = async (req: Request, res: Response): Promise<void
         rg,
         schooling,
         employmentStatus,
-        progress,
         birthDate,
         note,
         sectorId,
         addressId,
+        stageId,
       },
     });
     res.json(applicant);

@@ -10,7 +10,6 @@ const cityRouter = require('./src/routes/city');
 const neighborhoodRouter = require('./src/routes/neighborhood');
 const addressRouter = require('./src/routes/address');
 const stageRouter = require('./src/routes/stage');
-const processRouter = require('./src/routes/process');
 
 app.use(cors());
 app.use(express.json());
@@ -24,7 +23,6 @@ app.use('/city', cityRouter);
 app.use('/neighborhood', neighborhoodRouter);
 app.use('/address', addressRouter);
 app.use('/stage', stageRouter);
-app.use('/process', processRouter);
 
 
 const PORT = 3000;

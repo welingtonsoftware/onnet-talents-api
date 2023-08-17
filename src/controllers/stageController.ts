@@ -17,13 +17,14 @@ export const listStages = async (req: Request, res: Response): Promise<void> => 
 //Create
 export const createStage = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { stage, note, active } = req.body;
+    const { stage, note, active, value } = req.body;
 
     const newStage = await prisma.stage.create({
       data: {
         stage,
         note,
-        active
+        active, 
+        value
       }
     });
 
@@ -37,7 +38,7 @@ export const createStage = async (req: Request, res: Response): Promise<void> =>
 export const updateStage = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { stage, note, active } = req.body;
+    const { stage, note, active, value } = req.body;
     //Verifica se existe estágio
     const stageExists = await findIdStage(parseInt(id));
     if (!stageExists) {
@@ -51,7 +52,8 @@ export const updateStage = async (req: Request, res: Response): Promise<void> =>
       data: {
         stage,
         note,
-        active
+        active,
+        value
       }
     });
     res.json(updateStage);
