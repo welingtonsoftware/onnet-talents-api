@@ -14,7 +14,7 @@ model User {
 }
 
 model Applicant {
-  id               Int        @id @default(autoincrement())
+  id               Int         @id @default(autoincrement())
   name             String
   email            String
   phone            String
@@ -25,16 +25,17 @@ model Applicant {
   employmentStatus Int
   birthDate        DateTime
   note             String
-  create_at        DateTime   @default(now())
+  create_at        DateTime    @default(now())
   sectorId         Int?
   locationId       Int?
   addressId        Int?
   stageId          Int?
-  Sector           Sector?    @relation(fields: [sectorId], references: [id])
-  Location         Location?  @relation(fields: [locationId], references: [id])
-  Address          Address?   @relation(fields: [addressId], references: [id])
-  Stage            Stage?     @relation(fields: [stageId], references: [id])
+  Sector           Sector?     @relation(fields: [sectorId], references: [id])
+  Location         Location?   @relation(fields: [locationId], references: [id])
+  Address          Address?    @relation(fields: [addressId], references: [id])
+  Stage            Stage?      @relation(fields: [stageId], references: [id])
   Document         Document[]
+  Interview        Interview[]
 }
 
 model Document {
@@ -110,8 +111,20 @@ model Stage {
 }
 
 model Search {
-  id        Int      @id @default(autoincrement())
-  type      String   @db.VarChar(250)
+  id        Int         @id @default(autoincrement())
+  type      String      @db.VarChar(250)
   active    Boolean
-  create_at DateTime @default(now())
+  create_at DateTime    @default(now())
+  Interview Interview[]
+}
+
+model Interview {
+  id             Int       @id @default(autoincrement())
+  date_interview DateTime
+  note           String?
+  create_at      DateTime  @default(now())
+  searchId       Int?
+  search         Search?   @relation(fields: [searchId], references: [id])
+  applicantId    Int
+  applicant      Applicant @relation(fields: [applicantId], references: [id])
 }

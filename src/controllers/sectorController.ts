@@ -29,7 +29,6 @@ export const createSector = async (req: Request, res: Response): Promise<void> =
       res.status(404).json({ error: `Não encontramos nenhuma função com ID ${functionId}. Para cadastrar o setor.` });
       return;
     }
-
     const newSector = await prisma.sector.create({
       data: {
         name_sector,
@@ -37,7 +36,6 @@ export const createSector = async (req: Request, res: Response): Promise<void> =
         functionId,
       },
     });
-
     res.json(newSector);
   } catch (error) {
     console.log(error);
@@ -78,7 +76,7 @@ export const updateSector = async (req: Request, res: Response): Promise<void> =
 
   } catch (error) {
     console.error(error);
-    res.json(500).json({ error: 'Erro ao atualizar o setor.' });
+    res.status(500).json({ error: 'Erro ao atualizar o setor.' });
   }
 };
 //Delete
