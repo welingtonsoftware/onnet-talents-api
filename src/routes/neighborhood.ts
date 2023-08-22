@@ -11,6 +11,8 @@ router.post('/', neighborhoodController.createNeighborhood);
 router.put('/:id', neighborhoodController.updateNeighborhood);
 //Delete
 router.delete('/:id', neighborhoodController.deleteNeighborhood);
+//Get By City id
+router.get('/:id', neighborhoodController.getNeighborhoodsByCityId);
 
 
 module.exports = router;

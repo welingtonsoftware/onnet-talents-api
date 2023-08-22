@@ -10,6 +10,8 @@ router.post('/', addressController.createAddress);
 router.put('/:id', addressController.updateAddress);
 //Delete
 router.delete('/:id', addressController.deleteAddress);
+//Get address by neighborhoodId
+router.get('/:id', addressController.getAddressNeighborhoodId);
 
 module.exports = router;
 

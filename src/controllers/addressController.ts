@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 
 const { findIdAddress } = require('./helpers/addressServices');
 const { findIdNeighborhood } = require('./helpers/neighborhoodServices');
+const { addressByNeighborhoodId } = require('./helpers/addressServices');
 //List
 export const listAddresses = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -97,5 +98,19 @@ export const deleteAddress = async (req: Request, res: Response): Promise<void> 
   } catch (error) {
     console.error(error);
     res.status(500).json({error: 'Erro ao remover endereço.'});
+  }
+};
+//Get address by NeiId
+export const getAddressNeighborhoodId = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const neighborhoodId = parseInt(req.params.id);
+    const addressNeighborhoodIdExists = await addressByNeighborhoodId(neighborhoodId);
+    if(!addressNeighborhoodIdExists){
+      res.status(400).json({ error: `Não existe logradouro cadastrado para bairro com Id: ${neighborhoodId}.`});
+    }
+    res.json(addressNeighborhoodIdExists);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({error: "Erro ao buscar logradouro por bairro."});
   }
 };

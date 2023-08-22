@@ -27,10 +27,25 @@ async function checkNeighborhoodExists(neighborhoodName: string, cityId: number)
     return false;
   }
 };
+async function neighborhoodByCityId(id: number) {
+  try {
+    const neighborhoodByCityId = await prisma.neighborhood.findMany({
+      where: {
+        cityId: id,
+      },
+    });
+    return neighborhoodByCityId;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+  
+};
 
 module.exports = {
   findIdNeighborhood,
-  checkNeighborhoodExists
+  checkNeighborhoodExists,
+  neighborhoodByCityId,
 };
 
 

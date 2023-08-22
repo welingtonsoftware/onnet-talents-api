@@ -16,6 +16,20 @@ async function findIdAddress(id: number) {
   }
 };
 
+async function addressByNeighborhoodId(id: number) {
+  try {
+    const addressByNeighborhoodId = await prisma.address.findMany({
+      where: {
+        neighborhoodId : id,
+      },
+    });
+    return addressByNeighborhoodId
+  } catch (error) {
+    console.error(error);
+    return false
+  }
+};
 module.exports = {
-  findIdAddress
+  findIdAddress,
+  addressByNeighborhoodId,
 }

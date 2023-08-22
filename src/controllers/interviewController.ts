@@ -52,3 +52,7 @@ export const createInterview = async (req: Request, res: Response): Promise<void
     res.status(500).json({error: 'Erro ao cadastrar a entrevista.'})
   }
 };
+//Update
+export const updateInterview =async (req: Request, res: Response): Promise<void> => {
+  
+}

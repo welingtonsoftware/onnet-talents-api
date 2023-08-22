@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const { neighborhoodByCityId } = require('./helpers/neighborhoodServices');
 const { findIdNeighborhood } = require('./helpers/neighborhoodServices');
 const { checkNeighborhoodExists } = require('./helpers/neighborhoodServices');
 const { findIdCity } = require('./helpers/cityServices');
@@ -93,3 +94,20 @@ export const deleteNeighborhood =async (req: Request, res: Response): Promise<vo
     res.status(500).json({ error: 'Erro ao tentar remover o bairro.'});
   }
 };
+//Get Neighborhoods for CityId
+export const getNeighborhoodsByCityId =async (req: Request, res: Response): Promise<void> => {
+  try {
+    const cityId = parseInt(req.params.id);
+    //Verificar se existe a cidade
+    const neighborhoodCityExists = await neighborhoodByCityId(cityId);
+    if(!neighborhoodCityExists){
+      res.status(400).json({error: `Não existe um bairro cadastrado com a cidade por Id: ${ cityId} .`});
+      return
+    }
+    res.json(neighborhoodCityExists);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({error: 'Erro ao buscar o bairro por cidade.'});
+  }
+  
+}
