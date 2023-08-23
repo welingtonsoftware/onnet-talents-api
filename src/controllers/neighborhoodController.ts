@@ -4,9 +4,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const { neighborhoodByCityId } = require('./helpers/neighborhoodServices');
-const { findIdNeighborhood } = require('./helpers/neighborhoodServices');
+const { findNeighborhoodId } = require('./helpers/neighborhoodServices');
 const { checkNeighborhoodExists } = require('./helpers/neighborhoodServices');
-const { findIdCity } = require('./helpers/cityServices');
+const { findCityId } = require('./helpers/cityServices');
 
 //List
 export const listNeighborhoods = async (req: Request, res: Response): Promise<void> => {
@@ -26,7 +26,7 @@ export const listNeighborhoods = async (req: Request, res: Response): Promise<vo
 export const createNeighborhood = async (req: Request, res: Response): Promise<void> => {
   const { neighborhood_name, cityId } = req.body;
   try {
-    const cityExisting = await findIdCity(cityId);
+    const cityExisting = await findCityId(cityId);
     if (!cityExisting) {
       res.status(400).json({ error: `A cidade com ID ${cityId} não existe.` });
       return;
@@ -56,13 +56,13 @@ export const updateNeighborhood = async (req: Request, res: Response): Promise<v
   const {neighborhood_name, cityId } = req.body;
  
   try {
-    const neighborhoodExists = await findIdNeighborhood(neighborhoodId);
+    const neighborhoodExists = await findNeighborhoodId(neighborhoodId);
     if (!neighborhoodExists){
       res.status(400).json({error: `O bairro com ID ${ neighborhoodId} não existe.`});
       return;
     }
 
-    const cityExists = await findIdCity(cityId);
+    const cityExists = await findCityId(cityId);
     if (!cityExists){
       res.status(400).json({error:`A cidade com Id ${ cityId} não existe.`});
       return;

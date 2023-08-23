@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const { checkSearch } = require('./helpers/searchServices');
-const { findIdSearch } = require('./helpers/searchServices');
+const { findSearchId } = require('./helpers/searchServices');
 
 //List
 export const listResearches = async (req : Request, res: Response): Promise<void> => {
@@ -45,7 +45,7 @@ export const updateSearch =async (req: Request, res: Response): Promise<void> =>
     const { id } = req.params;
     const {type, active} = req.body;
 
-    const searchExists = await findIdSearch(parseInt(id));
+    const searchExists = await findSearchId(parseInt(id));
     if(!searchExists){
       res.status(400).json({ error: `Erro. A pesquisa com ID: ${ id }, não foi encontrada.`});
       return;

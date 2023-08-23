@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const { findIdCity } = require('../controllers/helpers/cityServices');
+const { findCityId } = require('../controllers/helpers/cityServices');
 const { chekCityExists } = require('../controllers/helpers/cityServices');
 
 //List
@@ -46,7 +46,7 @@ export const updateCity = async (req: Request, res: Response): Promise<void> => 
   const {city_name, ibge, uf } = req.body;
 
   try {
-    const cityExisting = await findIdCity(cityId);
+    const cityExisting = await findCityId(cityId);
     if (!cityExisting){
       res.status(400).json({ error: `Erro ao atualizar! A cidade com ID ${cityId} não existe.`});
       return; //Encerra

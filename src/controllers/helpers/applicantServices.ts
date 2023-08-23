@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function validadeApplicantID(id: number) {
+async function findApplicantId(id: number) {
   try {
     const existingApplicant = await prisma.applicant.findUnique({
       where: {id}
@@ -14,5 +14,5 @@ async function validadeApplicantID(id: number) {
 };
 
 module.exports ={
-  validadeApplicantID,
+  findApplicantId,
 };

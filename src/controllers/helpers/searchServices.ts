@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function findIdSearch(id : number) {
+async function findSearchId(id : number) {
   try {
     const existingSearch = prisma.search.findUnique({
       where: {id},
@@ -28,6 +28,6 @@ async function checkSearch(typeName: string) {
 };
 
 module.exports = {
-  findIdSearch,
+  findSearchId,
   checkSearch
 };

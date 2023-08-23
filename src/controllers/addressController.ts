@@ -3,8 +3,8 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const { findIdAddress } = require('./helpers/addressServices');
-const { findIdNeighborhood } = require('./helpers/neighborhoodServices');
+const { findAddressId } = require('./helpers/addressServices');
+const { findNeighborhoodId } = require('./helpers/neighborhoodServices');
 const { addressByNeighborhoodId } = require('./helpers/addressServices');
 //List
 export const listAddresses = async (req: Request, res: Response): Promise<void> => {
@@ -29,7 +29,7 @@ export const createAddress = async (req: Request, res: Response): Promise<void> 
   const { addres_name, cep, neighborhoodId } = req.body;
 
   try {
-    const neighborhoodExists = await findIdNeighborhood(neighborhoodId);
+    const neighborhoodExists = await findNeighborhoodId(neighborhoodId);
     if (!neighborhoodExists) {
       res.status(404).json({ error: `O bairro com ID ${neighborhoodId} não foi encontrado.` });
       return;
@@ -55,13 +55,13 @@ export const updateAddress = async (req: Request, res: Response): Promise<void> 
 
   try {
     //Verifica endereço
-    const addressExists = await findIdAddress(addressId);
+    const addressExists = await findAddressId(addressId);
     if (!addressExists) {
       res.status(400).json({ error: `O endereço com Id ${addressId} não existe.` });
       return;
     }
     //Verifica Bairro
-    const neighborhoodExists = await findIdNeighborhood(neighborhoodId);
+    const neighborhoodExists = await findNeighborhoodId(neighborhoodId);
     if (!neighborhoodExists) {
       res.status(404).json({ error: `O bairro com Id ${neighborhoodId} não existe.` });
       return;
@@ -86,7 +86,7 @@ export const deleteAddress = async (req: Request, res: Response): Promise<void> 
 
   const addressId = parseInt(req.params.id);
   try {
-    const addressExists = await findIdAddress(addressId);
+    const addressExists = await findAddressId(addressId);
     if(!addressExists){
       res.status(400).json({error: `O endereço com ID ${ addressId } não existe.`});
       return;
@@ -105,8 +105,9 @@ export const getAddressNeighborhoodId = async (req: Request, res: Response): Pro
   try {
     const neighborhoodId = parseInt(req.params.id);
     const addressNeighborhoodIdExists = await addressByNeighborhoodId(neighborhoodId);
+
     if(!addressNeighborhoodIdExists){
-      res.status(400).json({ error: `Não existe logradouro cadastrado para bairro com Id: ${neighborhoodId}.`});
+      res.status(400).json({ error: addressNeighborhoodIdExists});
     }
     res.json(addressNeighborhoodIdExists);
   } catch (error) {

@@ -2,12 +2,12 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function findSectorId(id: number) {
+async function findQuestId(id: number) {
   try {
-    const existingSectorId = prisma.sector.findUnique({
-      where: { id }
+    const questions = prisma.quest.findUnique({
+      where: { id },
     });
-    return existingSectorId;
+    return questions;
   } catch (error) {
     console.error(error);
     return false;
@@ -15,5 +15,5 @@ async function findSectorId(id: number) {
 };
 
 module.exports = {
-  findSectorId
+  findQuestId
 };

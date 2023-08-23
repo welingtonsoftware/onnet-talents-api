@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
-const { validadeApplicantID } = require('./helpers/applicantServices');
+const { findApplicantId } = require('./helpers/applicantServices');
 const prisma = new PrismaClient();
 
 //List
@@ -11,10 +11,14 @@ export const listApplicant = async (req: Request, res: Response) => {
     const applicants = await prisma.applicant.findMany({
       include: {
         Document: true,
-        Sector: true,
+        Sector:{
+          include:{
+            Function: true,
+          }
+        }, 
         Address: true,
         Stage: true,
-      },
+      }
     });
     //mapeamento de applicants object com ou sem documents
     const applicantsWithDocuments = applicants.map((applicant) => {
@@ -64,6 +68,7 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
       res.status(400).json({ error: 'Por favor, informar campos obrigatórios (name)' });
       return;
     }
+    
     const newApplicant = await prisma.applicant.create({
       data: {
         name,
@@ -107,7 +112,7 @@ export const updateApplicant = async (req: Request, res: Response): Promise<void
 
   try {
     //Verificar id applicant
-    const isValidApplicantId = await validadeApplicantID(applicantId);
+    const isValidApplicantId = await findApplicantId(applicantId);
     if (!isValidApplicantId) {
       res.status(404).json({ error: 'Não encontramos nenhum canditato com id: ', applicantId });
       return;

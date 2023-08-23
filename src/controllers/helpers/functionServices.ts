@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function findIdFunction(id: number) {
+async function findFunctionId(id: number) {
   try {
     const existingFunctionId = await prisma.function.findUnique({
       where: {id}
@@ -29,6 +29,6 @@ async function chekFunctionExists( functionName: string) {
 };
 
 module.exports = {
-  findIdFunction,
+  findFunctionId,
   chekFunctionExists
 };

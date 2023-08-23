@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const {findIdStage} = require('./helpers/stageServices');
+const {findStageId} = require('./helpers/stageServices');
 //List
 export const listStages = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -40,7 +40,7 @@ export const updateStage = async (req: Request, res: Response): Promise<void> =>
     const { id } = req.params;
     const { stage, note, active, value } = req.body;
     //Verifica se existe estágio
-    const stageExists = await findIdStage(parseInt(id));
+    const stageExists = await findStageId(parseInt(id));
     if (!stageExists) {
       res.status(404).json({ error: `O estágio com Id: ${id} não existe.` });
       return;
@@ -66,7 +66,7 @@ export const updateStage = async (req: Request, res: Response): Promise<void> =>
 export const deleteStage =async (req: Request, res: Response): Promise<void> => {
   const stageId = parseInt(req.params.id);
   try {
-    const stageExists = await findIdStage(stageId);
+    const stageExists = await findStageId(stageId);
     if (!stageExists){
       res.status(404).json({ error: `O estágio do processo com ID: ${stageId}, não foi encontrado.`});
       return;

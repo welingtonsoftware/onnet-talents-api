@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-async function findIdAddress(id: number) {
+async function findAddressId(id: number) {
   try {
     const existingAddressId = await prisma.address.findUnique({
       where: {
@@ -18,18 +18,21 @@ async function findIdAddress(id: number) {
 
 async function addressByNeighborhoodId(id: number) {
   try {
-    const addressByNeighborhoodId = await prisma.address.findMany({
+    const addresses = await prisma.address.findMany({
       where: {
         neighborhoodId : id,
       },
     });
-    return addressByNeighborhoodId
+    if (addresses.length === 0){
+      return `Não existe logradouro cadastrado para bairro com Id: ${ id }`;
+    }
+    return addresses;
   } catch (error) {
     console.error(error);
-    return false
+    return false;
   }
 };
 module.exports = {
-  findIdAddress,
+  findAddressId,
   addressByNeighborhoodId,
 }

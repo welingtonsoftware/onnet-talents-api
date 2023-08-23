@@ -111,11 +111,12 @@ model Stage {
 }
 
 model Search {
-  id        Int         @id @default(autoincrement())
-  type      String      @db.VarChar(250)
-  active    Boolean
-  create_at DateTime    @default(now())
-  Interview Interview[]
+  id           Int            @id @default(autoincrement())
+  type         String         @db.VarChar(250)
+  active       Boolean
+  create_at    DateTime       @default(now())
+  Interview    Interview[]
+  Search_quest Search_quest[]
 }
 
 model Interview {
@@ -127,4 +128,21 @@ model Interview {
   search         Search?   @relation(fields: [searchId], references: [id])
   applicantId    Int
   applicant      Applicant @relation(fields: [applicantId], references: [id])
+}
+
+model Search_quest {
+  id        Int      @id @default(autoincrement())
+  create_at DateTime @default(now())
+  searchId  Int
+  search    Search   @relation(fields: [searchId], references: [id])
+  questId   Int
+  quest     Quest    @relation(fields: [questId], references: [id])
+}
+
+model Quest {
+  id           Int            @id @default(autoincrement())
+  quest        String         @db.VarChar(500)
+  create_at    DateTime       @default(now())
+  active       Boolean
+  Search_quest Search_quest[]
 }

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
-const { findIdFunction } = require('./helpers/functionServices');
+const { findFunctionId } = require('./helpers/functionServices');
 const { chekFunctionExists } = require('./helpers/functionServices');
 
 const prisma = new PrismaClient();
@@ -47,7 +47,7 @@ export const updateFunction = async (req: Request, res: Response): Promise<void>
     const { id } = req.params;
     const { function: functionName, active } = req.body;
     //Verificar id function
-    const existingFunction = await findIdFunction(parseInt(id));
+    const existingFunction = await findFunctionId(parseInt(id));
     if (!existingFunction) {
       res.status(404).json({ error: `Não encontramos nenhuma função com ID ${id}. Função não encontrada.`});
       return;

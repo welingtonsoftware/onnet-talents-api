@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-const { findIdFunction } = require("./helpers/functionServices");
-const { findIdSector } = require("./helpers/sectorServices");
+const { findFunctionId } = require("./helpers/functionServices");
+const { findSectorId } = require("./helpers/sectorServices");
 
 //List
 export const listSectors = async (req: Request, res: Response): Promise<void> => {
@@ -24,7 +24,7 @@ export const createSector = async (req: Request, res: Response): Promise<void> =
   try {
     const { name_sector, note, functionId } = req.body;
     //Validar se existe a função
-    const existingFunction = await findIdFunction(parseInt(functionId));
+    const existingFunction = await findFunctionId(parseInt(functionId));
     if (!existingFunction) {
       res.status(404).json({ error: `Não encontramos nenhuma função com ID ${functionId}. Para cadastrar o setor.` });
       return;
@@ -49,7 +49,7 @@ export const updateSector = async (req: Request, res: Response): Promise<void> =
     const { name_sector, note, functionId } = req.body;
 
     // Verificar se o setor existe
-    const sectorExists = await findIdSector(parseInt(id));
+    const sectorExists = await findSectorId(parseInt(id));
     if (!sectorExists) {
       res.status(400).json({ error: `Erro! O setor com ID ${id} não existe.` });
       return; // Encerra a função imediatamente se o setor não existir
@@ -57,7 +57,7 @@ export const updateSector = async (req: Request, res: Response): Promise<void> =
     console.log(sectorExists);
 
     // Verificar se a função existe
-    const functionExists = await findIdFunction(parseInt(functionId));
+    const functionExists = await findFunctionId(parseInt(functionId));
     if (!functionExists) {
       res.status(400).json({ error: `Erro ao atualizar! A função com ID ${functionId} não existe.` });
       return; // Encerra a função imediatamente se a função não existir

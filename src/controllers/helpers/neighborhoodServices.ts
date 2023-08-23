@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function findIdNeighborhood(id: any) {
+async function findNeighborhoodId(id: any) {
   try {
     const existingNeighborhoodId = await prisma.neighborhood.findUnique({
       where:{ id },
@@ -43,7 +43,7 @@ async function neighborhoodByCityId(id: number) {
 };
 
 module.exports = {
-  findIdNeighborhood,
+  findNeighborhoodId,
   checkNeighborhoodExists,
   neighborhoodByCityId,
 };

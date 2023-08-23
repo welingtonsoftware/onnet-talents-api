@@ -6,7 +6,7 @@ const express = require('express');
 const prisma = new PrismaClient();
 const router = express.Router();
 
-const { validadeApplicantID } = require('./helpers/applicantServices');
+const { findApplicantId } = require('./helpers/applicantServices');
 const { createApplicantDirectory } = require('./helpers/documentServices');
 const { findDocumentId } =require('./helpers/documentServices');
 
@@ -40,7 +40,7 @@ export const upDocument = async (req: Request, res: Response): Promise<void> => 
     console.log('Nome original do arquivo:', originalname);
 
     //Verificar id, se candidato existe
-    const applicant = await validadeApplicantID(parseInt(applicantId));
+    const applicant = await findApplicantId(parseInt(applicantId));
     if (!applicant) {
       res.status(404).json({ error: 'Não encontramos nenhum canditato com id: ', applicantId });
       return;

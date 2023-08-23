@@ -12,8 +12,15 @@ const addressRouter = require('./src/routes/address');
 const stageRouter = require('./src/routes/stage');
 const searchRouter = require('./src/routes/search');
 const interviewRouter = require('./src/routes/interview');
+const questRouter = require('./src/routes/quest');
+const searchQuestRouter = require('./src/routes/searchQuest');
 
-app.use(cors());
+//app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:5173',
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/applicant', applicantRouter);
@@ -27,6 +34,8 @@ app.use('/address', addressRouter);
 app.use('/stage', stageRouter);
 app.use('/search', searchRouter);
 app.use('/interview', interviewRouter);
+app.use('/quest', questRouter);
+app.use('/searchQuest', searchQuestRouter);
 
 
 const PORT = 3000;
