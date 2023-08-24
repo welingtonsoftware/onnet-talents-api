@@ -57,7 +57,7 @@ export const updateAddress = async (req: Request, res: Response): Promise<void> 
     //Verifica endereço
     const addressExists = await findAddressId(addressId);
     if (!addressExists) {
-      res.status(400).json({ error: `O endereço com Id ${addressId} não existe.` });
+      res.status(404).json({ error: `O endereço com Id ${addressId} não existe.` });
       return;
     }
     //Verifica Bairro
@@ -108,7 +108,7 @@ export const getAddressNeighborhoodId = async (req: Request, res: Response): Pro
     const addressNeighborhoodIdExists = await addressByNeighborhoodId(neighborhoodId);
     console.log('teste', req.params);
     if(isNaN(neighborhoodId)){
-      throw new Error(`O valor enviado ${ neighborhoodId } não é um ID válido.`);
+      throw new Error(`O valor enviado (${ req.params.id }) não é um ID válido.`);
     }
 
     if(!addressNeighborhoodIdExists){
@@ -117,6 +117,6 @@ export const getAddressNeighborhoodId = async (req: Request, res: Response): Pro
     res.json(addressNeighborhoodIdExists);
   } catch (error) {
     console.error(error);
-    res.status(500).json({error: "Erro ao buscar logradouro por bairro. (" + error + ")"});
+    res.status(500).json({error: "Erro ao buscar logradouro por bairro. | " + error + " |"});
   }
 };
