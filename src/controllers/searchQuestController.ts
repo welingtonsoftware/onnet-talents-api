@@ -3,13 +3,13 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const findSearchId = require('./helpers/searchServices');
-const findQuestId = require('./helpers/questServices');
+const { findSearchId } = require('./helpers/searchServices');
+const { findQuestId }= require('./helpers/questServices');
 
 //List
 export const listSearchQuestions = async (req: Request, res: Response): Promise<void> => {
   try {
-    const searchQuestions = prisma.search_quest.findMany();
+    const searchQuestions = await prisma.search_quest.findMany();
     res.json(searchQuestions);
   } catch (error) {
     console.error(error);

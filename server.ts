@@ -14,6 +14,7 @@ const searchRouter = require('./src/routes/search');
 const interviewRouter = require('./src/routes/interview');
 const questRouter = require('./src/routes/quest');
 const searchQuestRouter = require('./src/routes/searchQuest');
+const answerRouter = require('./src/routes/answer');
 
 //app.use(cors());
 const corsOptions = {
@@ -36,7 +37,7 @@ app.use('/search', searchRouter);
 app.use('/interview', interviewRouter);
 app.use('/quest', questRouter);
 app.use('/searchQuest', searchQuestRouter);
-
+app.use('/answer', answerRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => {

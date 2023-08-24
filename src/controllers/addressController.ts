@@ -103,8 +103,13 @@ export const deleteAddress = async (req: Request, res: Response): Promise<void> 
 //Get address by NeiId
 export const getAddressNeighborhoodId = async (req: Request, res: Response): Promise<void> => {
   try {
+
     const neighborhoodId = parseInt(req.params.id);
     const addressNeighborhoodIdExists = await addressByNeighborhoodId(neighborhoodId);
+    console.log('teste', req.params);
+    if(isNaN(neighborhoodId)){
+      throw new Error(`O valor enviado ${ neighborhoodId } não é um ID válido.`);
+    }
 
     if(!addressNeighborhoodIdExists){
       res.status(400).json({ error: addressNeighborhoodIdExists});
@@ -112,6 +117,6 @@ export const getAddressNeighborhoodId = async (req: Request, res: Response): Pro
     res.json(addressNeighborhoodIdExists);
   } catch (error) {
     console.error(error);
-    res.status(500).json({error: "Erro ao buscar logradouro por bairro."});
+    res.status(500).json({error: "Erro ao buscar logradouro por bairro. (" + error + ")"});
   }
 };

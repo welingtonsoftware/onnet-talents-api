@@ -128,6 +128,7 @@ model Interview {
   search         Search?   @relation(fields: [searchId], references: [id])
   applicantId    Int
   applicant      Applicant @relation(fields: [applicantId], references: [id])
+  Answer         Answer[]
 }
 
 model Search_quest {
@@ -145,4 +146,16 @@ model Quest {
   create_at    DateTime       @default(now())
   active       Boolean
   Search_quest Search_quest[]
+  Answer       Answer[]
+}
+
+model Answer {
+  id          Int       @id @default(autoincrement())
+  answer_text String
+  correct     Boolean
+  create_at   DateTime  @default(now())
+  questId     Int
+  quest       Quest     @relation(fields: [questId], references: [id])
+  interviewId Int
+  interview   Interview @relation(fields: [interviewId], references: [id])
 }

@@ -64,3 +64,28 @@ export const updateSearch =async (req: Request, res: Response): Promise<void> =>
     res.status(500).json({ error: 'Erro ao atualizar pesquisa.'});
   }
 };
+//Get By Id
+export const getSearchById =async (req: Request, res: Response): Promise<void> => {
+  try {
+    const searchId = parseInt(req.params.id);
+    const searchExists = await findSearchId(searchId);
+    if(!searchExists){
+      res.status(404).json({ error : `A pesquisa com Id:${ searchId} não existe.`});
+      return;
+    }
+    const researches = await prisma.search.findUnique({
+      where: {id : searchId},
+      include: {
+        Search_quest: {
+          include: {
+            quest: true,
+          },
+        },
+      }
+    });
+    res.json(researches)
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro a buscar pesquisa | avaliação.'});
+  }
+};
