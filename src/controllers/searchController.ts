@@ -20,9 +20,9 @@ export const listResearches = async (req : Request, res: Response): Promise<void
 export const createSearch =async (req: Request, res: Response): Promise<void> => {
   try {
     const { type, active } = req.body;
-    const existingSearch = await checkSearch(type);
-    if (existingSearch){
-      res.status(400).json({ error: `A pesquisa ${ type } já está cadastrada.`});
+    const searchExists = await checkSearch(type);
+    if (searchExists){
+      res.status(404).json({ error: `A pesquisa ${type} já está cadastrada.`});
       return;
     }
     const newSearch = await prisma.search.create({
@@ -31,7 +31,7 @@ export const createSearch =async (req: Request, res: Response): Promise<void> =>
         active,
       }
     });
-    console.log('aqui', newSearch)
+
     res.json(newSearch);
   } catch (error) {
     console.error(error)

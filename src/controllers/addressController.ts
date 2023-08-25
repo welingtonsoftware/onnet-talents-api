@@ -9,7 +9,7 @@ const { addressByNeighborhoodId } = require('./helpers/addressServices');
 //List
 export const listAddresses = async (req: Request, res: Response): Promise<void> => {
   try {
-    const adreesses = await prisma.address.findMany({
+    const adrresses = await prisma.address.findMany({
       include: {
         neighborhood: {
           include: {
@@ -18,7 +18,7 @@ export const listAddresses = async (req: Request, res: Response): Promise<void> 
         },
       },
     });
-    res.json(adreesses);
+    res.json(adrresses);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao listar endereços.' });
@@ -27,7 +27,6 @@ export const listAddresses = async (req: Request, res: Response): Promise<void> 
 //Create
 export const createAddress = async (req: Request, res: Response): Promise<void> => {
   const { addres_name, cep, neighborhoodId } = req.body;
-
   try {
     const neighborhoodExists = await findNeighborhoodId(neighborhoodId);
     if (!neighborhoodExists) {

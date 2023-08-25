@@ -62,7 +62,6 @@ export const upDocument = async (req: Request, res: Response): Promise<void> => 
         },
       },
     });
-
     res.json(newDocument);
 
   } catch (error) {

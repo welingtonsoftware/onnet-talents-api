@@ -19,22 +19,22 @@ export const listNeighborhoods = async (req: Request, res: Response): Promise<vo
     res.json(neighborhoods);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'Erro ao buscar bairros.' });
+    res.status(500).json({ error: 'Erro ao listar bairros.' });
   }
 };
 //Create
 export const createNeighborhood = async (req: Request, res: Response): Promise<void> => {
   const { neighborhood_name, cityId } = req.body;
   try {
-    const cityExisting = await findCityId(cityId);
-    if (!cityExisting) {
-      res.status(400).json({ error: `A cidade com ID ${cityId} não existe.` });
+    const cityExists = await findCityId(cityId);
+    if (!cityExists) {
+      res.status(404).json({ error: `A cidade com ID ${cityId} não está cadastrada.` });
       return;
     }
 
     const checkNeighborhood = await checkNeighborhoodExists(neighborhood_name, cityId);
     if (checkNeighborhood){
-      res.status(400).json({error: `O Bairro ${neighborhood_name} para cidade de código ${cityId} já existe.`});
+      res.status(404).json({error: `O Bairro ${neighborhood_name} para cidade de código ${cityId} já está cadastrada.`});
       return;
     }
 

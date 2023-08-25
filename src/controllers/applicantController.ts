@@ -6,7 +6,7 @@ const { findApplicantId } = require('./helpers/applicantServices');
 const prisma = new PrismaClient();
 
 //List
-export const listApplicant = async (req: Request, res: Response) => {
+export const listApplicants = async (req: Request, res: Response) => {
   try {
     const applicants = await prisma.applicant.findMany({
       include: {
@@ -44,7 +44,7 @@ export const listApplicant = async (req: Request, res: Response) => {
     res.json(applicantsWithDocuments);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erro ao buscar candidato.' });
+    res.status(500).json({ error: 'Erro ao listar candidato.' });
   }
 };
 // Create
@@ -63,9 +63,9 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
       sectorId,
       addressId,
       stageId } = req.body;
-    console.log('Received data: ', name, email, phone)
+
     if (!name) {
-      res.status(400).json({ error: 'Por favor, informar campos obrigatórios (name)' });
+      res.status(404).json({ error: 'Por favor, informar campos obrigatórios (name)' });
       return;
     }
     
@@ -90,7 +90,7 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
     res.json(newApplicant);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Falha ao criar... ' });
+    res.status(500).json({ error: 'Erro ao cadastrar o candidato.' });
   }
 };
 //Update

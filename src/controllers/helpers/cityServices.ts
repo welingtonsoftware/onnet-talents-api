@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function findIdCity(id: number) {
+async function findCityId(id: number) {
   try {
     const exisistingCityId = await prisma.city.findUnique({
       where: {
@@ -18,13 +18,13 @@ async function findIdCity(id: number) {
 
 async function chekCityExists(cityName: string, uf: string) {
   try {
-    const exisistingCity = await prisma.city.findFirst({
+    const cityExists = await prisma.city.findFirst({
       where: {
        city_name: cityName,
         uf: uf,
       },
     });
-    return exisistingCity !== null;
+    return cityExists !== null;
   } catch (error) {
     console.error(error);
     return false;
@@ -32,6 +32,6 @@ async function chekCityExists(cityName: string, uf: string) {
 };
 
 module.exports = {
-  findIdCity,
+  findCityId,
   chekCityExists
 }

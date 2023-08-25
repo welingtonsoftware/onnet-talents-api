@@ -16,7 +16,7 @@ export const listSectors = async (req: Request, res: Response): Promise<void> =>
     res.json(sectors);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erro ao buscar os setores' });
+    res.status(500).json({ error: 'Erro ao listar os setores.' });
   }
 };
 //Create
@@ -24,8 +24,8 @@ export const createSector = async (req: Request, res: Response): Promise<void> =
   try {
     const { name_sector, note, functionId } = req.body;
     //Validar se existe a função
-    const existingFunction = await findFunctionId(parseInt(functionId));
-    if (!existingFunction) {
+    const functionExists = await findFunctionId(parseInt(functionId));
+    if (!functionExists) {
       res.status(404).json({ error: `Não encontramos nenhuma função com ID ${functionId}. Para cadastrar o setor.` });
       return;
     }
@@ -37,6 +37,7 @@ export const createSector = async (req: Request, res: Response): Promise<void> =
       },
     });
     res.json(newSector);
+    
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Erro ao criar setor.' });

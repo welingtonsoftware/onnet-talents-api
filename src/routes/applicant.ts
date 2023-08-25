@@ -5,7 +5,7 @@ const applicantController = require('../controllers/applicantController');
 const { getApplicantWithDocuments } = require('../controllers/applicantController');
 
 // Rota para listar candidatos
-router.get('/', applicantController.listApplicant); 
+router.get('/', applicantController.listApplicants); 
 // Rota para criar um novo candidato
 router.post('/', applicantController.createApplicant);
 // Rota para atualizar o candidato

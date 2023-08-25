@@ -13,7 +13,7 @@ export const listFunctions = async (req: Request, res: Response): Promise<void> 
     res.json(functions);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'Erro ao buscar funções cadastradas.' })
+    res.status(500).json({ error: 'Erro ao listar funções cadastradas.' })
   }
 };
 //Create

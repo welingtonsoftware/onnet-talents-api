@@ -11,14 +11,13 @@ export const listStages = async (req: Request, res: Response): Promise<void> => 
     res.json(stages);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erro ao buscar estágio do progresso' });
+    res.status(500).json({ error: 'Erro ao listar o estágio do progresso' });
   }
 };
 //Create
 export const createStage = async (req: Request, res: Response): Promise<void> => {
   try {
     const { stage, note, active, value } = req.body;
-
     const newStage = await prisma.stage.create({
       data: {
         stage,
@@ -27,8 +26,8 @@ export const createStage = async (req: Request, res: Response): Promise<void> =>
         value
       }
     });
-
     res.json(newStage);
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao criar estágio de progresso.' });

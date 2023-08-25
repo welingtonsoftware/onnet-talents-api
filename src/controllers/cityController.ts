@@ -13,17 +13,17 @@ export const listCities = async (req: Request, res: Response): Promise<void> => 
     res.json(cities);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erro ao buscar cidades cadsatradas' });
+    res.status(500).json({ error: 'Erro ao listar cidades cadastradas.' });
   }
 };
 //Create
 export const createCity = async (req: Request, res: Response): Promise<void> => {
-  const { city_name, ibge, uf } = req.body;
   try {
+    const { city_name, ibge, uf } = req.body;
     //verificar se existe cidade com mesmo nome e estado
     const chekCity = await chekCityExists(city_name, uf);
     if (chekCity) {
-      res.status(400).json({ error: `Já existe uma cidade cadastrada com o mesmo nome ${city_name} e UF: ${uf}.` });
+      res.status(404).json({ error: `Já existe uma cidade cadastrada com o mesmo nome ${city_name} e UF: ${uf}.` });
       return;
     }
     const newCity = await prisma.city.create({

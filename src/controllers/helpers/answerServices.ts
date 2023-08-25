@@ -7,8 +7,7 @@ async function findAnswerId(id: number) {
     const existingAnswer = prisma.answer.findUnique({
       where : { id },
     });
-
-    return !!existingAnswer;
+    return existingAnswer;
   } catch (error) {
     console.error(error);
     return false;

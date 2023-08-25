@@ -18,7 +18,7 @@ export const listInterviews = async (req: Request, res: Response): Promise<void>
     res.json(interviews);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erro ao buscar Entrevistas' });
+    res.status(500).json({ error: 'Erro ao listar entrevistas.' });
   }
 };
 //Create
@@ -29,7 +29,7 @@ export const createInterview = async (req: Request, res: Response): Promise<void
     //Verificar se existe o tipo de pesquisa
     const searchExists = await findSearchId(searchId);
     if (!searchExists) {
-      res.status(400).json({ error: `O tipo de pesquisa/entrevista com Id: ${searchId} não existe.` });
+      res.status(404).json({ error: `O tipo de pesquisa/entrevista com Id: ${searchId} não foi encontrado.` });
       return;
     }
     //Verificar se existe o candidato.

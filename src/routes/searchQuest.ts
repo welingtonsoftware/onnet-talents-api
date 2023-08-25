@@ -7,6 +7,8 @@ const searchQuestionController = require('../controllers/searchQuestController')
 router.get('/', searchQuestionController.listSearchQuestions);
 //Create
 router.post('/', searchQuestionController.createSearchQuestion);
+//Delete
+router.delete('/:id', searchQuestionController.deleteSearchQuestion);
 
 module.exports = router;
 
