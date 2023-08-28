@@ -44,7 +44,7 @@ export const updateStage = async (req: Request, res: Response): Promise<void> =>
       res.status(404).json({ error: `O estágio com Id: ${id} não existe.` });
       return;
     }
-    console.log('aqui', stageExists);
+    console.log('Data:', stageExists);
 
     const updateStage = await prisma.stage.update({
       where: { id: parseInt(id) },

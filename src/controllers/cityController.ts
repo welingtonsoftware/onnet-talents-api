@@ -42,16 +42,15 @@ export const createCity = async (req: Request, res: Response): Promise<void> => 
 };
 //Update
 export const updateCity = async (req: Request, res: Response): Promise<void> => {
-  const cityId = parseInt(req.params.id);
-  const {city_name, ibge, uf } = req.body;
-
   try {
-    const cityExisting = await findCityId(cityId);
-    if (!cityExisting){
+    const cityId = parseInt(req.params.id);
+    const {city_name, ibge, uf } = req.body;
+    const cityExists = await findCityId(cityId);
+    if (!cityExists){
       res.status(400).json({ error: `Erro ao atualizar! A cidade com ID ${cityId} não existe.`});
       return; //Encerra
     }
-    console.log(cityExisting);
+    console.log(cityExists);
 
     const updateCity = await prisma.city.update({
       where: {id: cityId},

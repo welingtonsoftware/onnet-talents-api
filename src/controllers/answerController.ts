@@ -55,15 +55,15 @@ export const updateAnswer = async (req: Request, res: Response): Promise<void> =
     const answerId = parseInt(req.params.id);
     const { answer_text, correct, questId, interviewId } = req.body;
 
-    const answerExistis = await findAnswerId(answerId);
-    if (!answerExistis) {
+    const answerExists = await findAnswerId(answerId);
+    if (!answerExists) {
       const errorMessage = `O Id: ${answerId} da resposta enviada não existe.`;
       res.status(404).json({ error: errorMessage });
       return;
     }
 
-    const questionExist = await findQuestId(questId);
-    if (!questionExist) {
+    const questionExists = await findQuestId(questId);
+    if (!questionExists) {
       const errorMessage = `O Id: ${questId} da questão enviada não existe.`;
       res.status(404).json({ error: errorMessage });
       return;

@@ -101,24 +101,23 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
 };
 //Update
 export const updateApplicant = async (req: Request, res: Response): Promise<void> => {
-  const applicantId = parseInt(req.params.id);
-  const { name,
-    email,
-    phone,
-    cpf,
-    sexo,
-    rg,
-    schooling,
-    employmentStatus,
-    birthDate,
-    note,
-    complement,
-    number,
-    sectorId,
-    addressId,
-    stageId } = req.body;
-
   try {
+    const applicantId = parseInt(req.params.id);
+    const { name,
+      email,
+      phone,
+      cpf,
+      sexo,
+      rg,
+      schooling,
+      employmentStatus,
+      birthDate,
+      note,
+      complement,
+      number,
+      sectorId,
+      addressId,
+      stageId } = req.body;
     //Verificar id applicant
     const isValidApplicantId = await findApplicantId(applicantId);
     if (!isValidApplicantId) {

@@ -37,8 +37,8 @@ export const updateQuest = async (req: Request, res: Response): Promise<void> =>
     const questionId = parseInt(req.params.id);
     const { quest, active } = req.body;
 
-    const questionExist = await findQuestId(questionId);
-    if (!questionExist){
+    const questionExists = await findQuestId(questionId);
+    if (!questionExists){
       res.status(404).json({ error: `A questão por Id: ${questionId} não existe.`});
       return;
     }

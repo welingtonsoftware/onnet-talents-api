@@ -20,7 +20,6 @@ export const listFunctions = async (req: Request, res: Response): Promise<void> 
 export const createFunction = async (req: Request, res: Response): Promise<void> => {
   try {
     const { function: functionName, active } = req.body;
-
     //verifica se o nome da função não está cadastrado
     const checkFunction = await chekFunctionExists(functionName);
     if (checkFunction){
@@ -47,8 +46,8 @@ export const updateFunction = async (req: Request, res: Response): Promise<void>
     const { id } = req.params;
     const { function: functionName, active } = req.body;
     //Verificar id function
-    const existingFunction = await findFunctionId(parseInt(id));
-    if (!existingFunction) {
+    const functionExists = await findFunctionId(parseInt(id));
+    if (!functionExists) {
       res.status(404).json({ error: `Não encontramos nenhuma função com ID ${id}. Função não encontrada.`});
       return;
     }

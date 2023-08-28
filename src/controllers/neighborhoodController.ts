@@ -52,10 +52,9 @@ export const createNeighborhood = async (req: Request, res: Response): Promise<v
 };
 //Update
 export const updateNeighborhood = async (req: Request, res: Response): Promise<void> => {
-  const neighborhoodId = parseInt(req.params.id);
-  const {neighborhood_name, cityId } = req.body;
- 
   try {
+    const neighborhoodId = parseInt(req.params.id);
+    const {neighborhood_name, cityId } = req.body;
     const neighborhoodExists = await findNeighborhoodId(neighborhoodId);
     if (!neighborhoodExists){
       res.status(400).json({error: `O bairro com ID ${ neighborhoodId} não existe.`});

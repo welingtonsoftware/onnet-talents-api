@@ -26,8 +26,8 @@ export const listAddresses = async (req: Request, res: Response): Promise<void> 
 };
 //Create
 export const createAddress = async (req: Request, res: Response): Promise<void> => {
-  const { addres_name, cep, neighborhoodId } = req.body;
   try {
+    const { addres_name, cep, neighborhoodId } = req.body;
     const neighborhoodExists = await findNeighborhoodId(neighborhoodId);
     if (!neighborhoodExists) {
       res.status(404).json({ error: `O bairro com ID ${neighborhoodId} não foi encontrado.` });
@@ -49,10 +49,9 @@ export const createAddress = async (req: Request, res: Response): Promise<void> 
 };
 //Update
 export const updateAddress = async (req: Request, res: Response): Promise<void> => {
-  const addressId = parseInt(req.params.id);
-  const { addres_name, cep, neighborhoodId } = req.body;
-
   try {
+    const addressId = parseInt(req.params.id);
+    const { addres_name, cep, neighborhoodId } = req.body;
     //Verifica endereço
     const addressExists = await findAddressId(addressId);
     if (!addressExists) {

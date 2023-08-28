@@ -68,13 +68,13 @@ export const updateInterview =async (req: Request, res: Response): Promise<void>
     //Verificar se o candidado existe
     const applicantExists = await findApplicantId(applicantId);
     if (!applicantExists){
-      res.status(404).json({ error: `O Candidato com Id:${applicantId} informado para entrevista não existe`});
+      res.status(404).json({ error: `O Candidato com Id:${applicantId} informado para entrevista não existe.`});
       return;
     }
     //Verifica se o tipo da pesquisa/avaliação existe
     const searchExists = await findSearchId(searchId);
     if (!searchExists){
-      res.status(404).json({ error: `A pesquisa ou avaliação com Id:${searchId} informado para entrevista não existe`});
+      res.status(404).json({ error: `A pesquisa ou avaliação com Id:${searchId} informado para entrevista não existe.`});
       return;
     }
 

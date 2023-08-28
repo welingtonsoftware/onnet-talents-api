@@ -27,7 +27,6 @@ export const upDocument = async (req: Request, res: Response): Promise<void> => 
     const { applicantId } = req.params;
     const file = req.file;
 
-
     if (!file) {
       res.status(400).json({ error: 'Arquivo não encontrado' });
     }
