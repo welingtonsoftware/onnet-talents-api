@@ -25,6 +25,8 @@ model Applicant {
   employmentStatus Int
   birthDate        DateTime
   note             String
+  complement       String?
+  number           String?
   create_at        DateTime    @default(now())
   sectorId         Int?
   locationId       Int?

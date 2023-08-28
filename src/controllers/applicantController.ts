@@ -34,6 +34,8 @@ export const listApplicants = async (req: Request, res: Response) => {
         employmentStatus: applicant.employmentStatus,
         birthDate: applicant.birthDate,
         note: applicant.note,
+        complement: applicant.complement,
+        number: applicant.complement,
         create_at: applicant.create_at,
         Documents: applicant.Document, // Array de documentos relacionados
         Sector: applicant.Sector, // Setor relacionado
@@ -60,6 +62,8 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
       employmentStatus,
       birthDate,
       note,
+      complement,
+      number,
       sectorId,
       addressId,
       stageId } = req.body;
@@ -81,6 +85,8 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
         employmentStatus,
         birthDate,
         note,
+        complement,
+        number,
         sectorId,
         addressId,
         stageId,
@@ -106,6 +112,8 @@ export const updateApplicant = async (req: Request, res: Response): Promise<void
     employmentStatus,
     birthDate,
     note,
+    complement,
+    number,
     sectorId,
     addressId,
     stageId } = req.body;
@@ -131,6 +139,8 @@ export const updateApplicant = async (req: Request, res: Response): Promise<void
         employmentStatus,
         birthDate,
         note,
+        complement,
+        number,
         sectorId,
         addressId,
         stageId,
