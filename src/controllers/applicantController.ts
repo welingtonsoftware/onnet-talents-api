@@ -72,7 +72,7 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
       res.status(404).json({ error: 'Por favor, informar campos obrigatórios (name)' });
       return;
     }
-    
+    console.log('Data applicant: ', req.body);
     const newApplicant = await prisma.applicant.create({
       data: {
         name,
