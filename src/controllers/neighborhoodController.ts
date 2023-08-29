@@ -3,10 +3,10 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const { neighborhoodByCityId } = require('./helpers/neighborhoodServices');
-const { findNeighborhoodId } = require('./helpers/neighborhoodServices');
-const { checkNeighborhoodExists } = require('./helpers/neighborhoodServices');
-const { findCityId } = require('./helpers/cityServices');
+const { neighborhoodByCityId } = require('../services/neighborhoodServices');
+const { findNeighborhoodId } = require('../services/neighborhoodServices');
+const { checkNeighborhoodExists } = require('../services/neighborhoodServices');
+const { findCityId } = require('../services/cityServices');
 
 //List
 export const listNeighborhoods = async (req: Request, res: Response): Promise<void> => {

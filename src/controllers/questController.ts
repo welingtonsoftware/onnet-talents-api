@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const { findQuestId } = require('./helpers/questServices');
+const { findQuestId } = require('../services/questServices');
 
 //List
 export const listQuestions =async (req: Request, res: Response): Promise<void> => {

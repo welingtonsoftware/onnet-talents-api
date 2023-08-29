@@ -3,8 +3,8 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const { checkSearch } = require('./helpers/searchServices');
-const { findSearchId } = require('./helpers/searchServices');
+const { checkSearch } = require('../services/searchServices');
+const { findSearchId } = require('../services/searchServices');
 
 //List
 export const listResearches = async (req : Request, res: Response): Promise<void> => {

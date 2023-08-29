@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-const { findFunctionId } = require("./helpers/functionServices");
-const { findSectorId } = require("./helpers/sectorServices");
+const { findFunctionId } = require("../services/functionServices");
+const { findSectorId } = require("../services/sectorServices");
 
 //List
 export const listSectors = async (req: Request, res: Response): Promise<void> => {

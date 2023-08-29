@@ -3,8 +3,8 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const { findCityId } = require('../controllers/helpers/cityServices');
-const { chekCityExists } = require('../controllers/helpers/cityServices');
+const { findCityId } = require('../services/cityServices');
+const { chekCityExists } = require('../services/cityServices');
 
 //List
 export const listCities = async (req: Request, res: Response): Promise<void> => {

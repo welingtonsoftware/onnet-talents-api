@@ -3,9 +3,9 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const { findSearchId } = require('./helpers/searchServices');
-const { findApplicantId } = require('./helpers/applicantServices');
-const { findInterviewId } = require('./helpers/interviewServices');
+const { findSearchId } = require('../services/searchServices');
+const { findApplicantId } = require('../services/applicantServices');
+const { findInterviewId } = require('../services/interviewServices');
 
 //List
 export const listInterviews = async (req: Request, res: Response): Promise<void> => {

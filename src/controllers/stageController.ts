@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const {findStageId} = require('./helpers/stageServices');
+const {findStageId} = require('../services/stageServices');
 //List
 export const listStages = async (req: Request, res: Response): Promise<void> => {
   try {

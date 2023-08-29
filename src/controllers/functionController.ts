@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
-const { findFunctionId } = require('./helpers/functionServices');
-const { chekFunctionExists } = require('./helpers/functionServices');
+const { findFunctionId } = require('../services/functionServices');
+const { chekFunctionExists } = require('../services/functionServices');
 
 const prisma = new PrismaClient();
 

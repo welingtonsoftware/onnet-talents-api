@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
-const { findApplicantId } = require('./helpers/applicantServices');
+const { findApplicantId } = require('../services/applicantServices');
 const prisma = new PrismaClient();
 
 //List

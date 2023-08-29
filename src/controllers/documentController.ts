@@ -6,9 +6,9 @@ const express = require('express');
 const prisma = new PrismaClient();
 const router = express.Router();
 
-const { findApplicantId } = require('./helpers/applicantServices');
-const { createApplicantDirectory } = require('./helpers/documentServices');
-const { findDocumentId } =require('./helpers/documentServices');
+const { findApplicantId } = require('../services/applicantServices');
+const { createApplicantDirectory } = require('../services/documentServices');
+const { findDocumentId } =require('../services/documentServices');
 
 // Rota para listar todos caminhos criados
 export const listDocumentPaths = async (req: Request, res: Response) => {
