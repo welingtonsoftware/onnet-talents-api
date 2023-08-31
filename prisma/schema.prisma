@@ -28,14 +28,14 @@ model Applicant {
   complement       String?
   number           String?
   create_at        DateTime    @default(now())
-  sectorId         Int?
   locationId       Int?
   addressId        Int?
   stageId          Int?
-  Sector           Sector?     @relation(fields: [sectorId], references: [id])
+  functionId       Int?
   Location         Location?   @relation(fields: [locationId], references: [id])
   Address          Address?    @relation(fields: [addressId], references: [id])
   Stage            Stage?      @relation(fields: [stageId], references: [id])
+  Function         Function?   @relation(fields: [functionId], references: [id])
   Document         Document[]
   Interview        Interview[]
 }
@@ -49,21 +49,21 @@ model Document {
 }
 
 model Sector {
-  id          Int         @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   name_sector String
   note        String?
-  create_at   DateTime    @default(now())
-  functionId  Int?
-  Function    Function?   @relation(fields: [functionId], references: [id])
-  Applicant   Applicant[]
+  create_at   DateTime   @default(now())
+  Function    Function[]
 }
 
 model Function {
-  id        Int      @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   function  String
-  create_at DateTime @default(now())
+  create_at DateTime    @default(now())
   active    Boolean
-  Sector    Sector[]
+  sectorId  Int         @default(1)
+  Sector    Sector      @relation(fields: [sectorId], references: [id])
+  Applicant Applicant[]
 }
 
 model Location {

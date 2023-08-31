@@ -16,12 +16,8 @@ const questRouter = require('./src/routes/quest');
 const searchQuestRouter = require('./src/routes/searchQuest');
 const answerRouter = require('./src/routes/answer');
 
-//app.use(cors());
-const corsOptions = {
-  origin: 'http://localhost:5173',
-};
+app.use(cors());
 
-app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/applicant', applicantRouter);

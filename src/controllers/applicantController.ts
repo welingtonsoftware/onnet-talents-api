@@ -11,9 +11,9 @@ export const listApplicants = async (req: Request, res: Response) => {
     const applicants = await prisma.applicant.findMany({
       include: {
         Document: true,
-        Sector:{
+        Function:{
           include:{
-            Function: true,
+            Sector: true,
           }
         }, 
         Address: true,
@@ -38,7 +38,7 @@ export const listApplicants = async (req: Request, res: Response) => {
         number: applicant.complement,
         create_at: applicant.create_at,
         Documents: applicant.Document, // Array de documentos relacionados
-        Sector: applicant.Sector, // Setor relacionado
+        Function: applicant.Function, // Function relacionado
         Address: applicant.Address,
         Stage: applicant.Stage,
       };
@@ -64,7 +64,7 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
       note,
       complement,
       number,
-      sectorId,
+      functionId,
       addressId,
       stageId } = req.body;
 
@@ -73,6 +73,7 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
       return;
     }
     console.log('Data applicant: ', req.body);
+    
     const newApplicant = await prisma.applicant.create({
       data: {
         name,
@@ -87,7 +88,7 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
         note,
         complement,
         number,
-        sectorId,
+        functionId,
         addressId,
         stageId,
       },
@@ -115,7 +116,7 @@ export const updateApplicant = async (req: Request, res: Response): Promise<void
       note,
       complement,
       number,
-      sectorId,
+      functionId,
       addressId,
       stageId } = req.body;
     //Verificar id applicant
@@ -140,7 +141,7 @@ export const updateApplicant = async (req: Request, res: Response): Promise<void
         note,
         complement,
         number,
-        sectorId,
+        functionId,
         addressId,
         stageId,
       },
