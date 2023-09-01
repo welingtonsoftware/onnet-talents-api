@@ -44,7 +44,7 @@ export const createFunction = async (req: Request, res: Response): Promise<void>
 export const updateFunction = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { function: functionName, active } = req.body;
+    const { function: functionName, active, sectorId } = req.body;
     //Verificar id function
     const functionExists = await findFunctionId(parseInt(id));
     if (!functionExists) {
@@ -59,6 +59,7 @@ export const updateFunction = async (req: Request, res: Response): Promise<void>
       data: {
         function: functionName,
         active,
+        sectorId
       },
     });
     res.json(updateFunction);

@@ -11,4 +11,6 @@ router.get('/', documentController.listDocumentPaths);
 router.post('/upload/:applicantId', upload.single('File'), documentController.upDocument);
 // Remover docs
 router.delete('/upload/:documentId', documentController.deleteDocument);
+// Get by id
+router.get('/:id', documentController.getByApplicantyId);
 module.exports = router;

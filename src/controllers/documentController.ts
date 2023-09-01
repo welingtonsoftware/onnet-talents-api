@@ -8,9 +8,10 @@ const router = express.Router();
 
 const { findApplicantId } = require('../services/applicantServices');
 const { createApplicantDirectory } = require('../services/documentServices');
-const { findDocumentId } =require('../services/documentServices');
+const { findDocumentId } = require('../services/documentServices');
+const { findDocumentsApllicant } = require('../services/documentServices');
 
-// Rota para listar todos caminhos criados
+//Rota para listar todos caminhos criados
 export const listDocumentPaths = async (req: Request, res: Response) => {
   try {
     const document = await prisma.document.findMany();
@@ -34,7 +35,7 @@ export const upDocument = async (req: Request, res: Response): Promise<void> => 
     // Verifica se o diretório do candidato existe
     const pathCodApplicant = await createApplicantDirectory(parseInt(applicantId))
 
-    const { path , originalname } = req.file;
+    const { path, originalname } = req.file;
     console.log('Caminho do arquivo temporário:', path);
     console.log('Nome original do arquivo:', originalname);
 
@@ -57,7 +58,7 @@ export const upDocument = async (req: Request, res: Response): Promise<void> => 
         path: newPath,
         type: parseInt(req.body.type),
         applicant: {
-          connect: { id: parseInt(applicantId)}
+          connect: { id: parseInt(applicantId) }
         },
       },
     });
@@ -75,24 +76,44 @@ export const deleteDocument = async (req: Request, res: Response): Promise<void>
     const { documentId } = req.params;
     const document = await findDocumentId(parseInt(documentId));
 
-    if(!document){
-      res.status(404).json({error: 'Documento não foi encontrato'});
+    if (!document) {
+      res.status(404).json({ error: `Documento com ${documentId} não foi encontrado.` });
       return;
     }
 
+    console.log('Data: ', document);
     //Remove doc
-    if(fs.existsSync(document.path)){
+    if (fs.existsSync(document.path)) {
+      console.log('Documento ' + documentId + ' removido do diretório.');
       fs.unlinkSync(document.path);
+      //Remove bd
+      await prisma.document.delete({
+        where: { id: parseInt(documentId) },
+      });
+      res.json({ messange: 'Documento removido com sucesso.' });
     }
-
-    //Remove bd
-    await prisma.document.delete({
-      where : {id: parseInt(documentId)},
-    });
-    res.json({messange: 'Documento removido com sucesso.'});
+    else{
+      res.json({messange: 'Documento não foi localizado no diretório.' })
+    }
   } catch (error) {
     console.error(error);
-    res.status(500).json({error: 'Erro ao remover o documento.'});
+    res.status(500).json({ error: 'Erro ao remover o documento.' });
+  }
+};
+//Get By Id
+export const getByApplicantyId =async (req: Request, res: Response): Promise<void> => {
+  try {
+    const applicantId = parseInt(req.params.id);
+    const documentsAplicant = await findDocumentsApllicant(applicantId);
+
+    if (!documentsAplicant){
+      res.status(404).json({ error : 'Documentos do cliente não foram encontratos.'});
+    }
+
+    res.json(documentsAplicant);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao buscar documentos do candidado.'});
   }
 };
 

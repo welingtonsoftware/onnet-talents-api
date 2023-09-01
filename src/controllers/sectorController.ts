@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-const { findFunctionId } = require("../services/functionServices");
 const { findSectorId } = require("../services/sectorServices");
 
 //List
@@ -22,18 +21,11 @@ export const listSectors = async (req: Request, res: Response): Promise<void> =>
 //Create
 export const createSector = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name_sector, note, functionId } = req.body;
-    //Validar se existe a função
-    const functionExists = await findFunctionId(parseInt(functionId));
-    if (!functionExists) {
-      res.status(404).json({ error: `Não encontramos nenhuma função com ID ${functionId}. Para cadastrar o setor.` });
-      return;
-    }
+    const { name_sector, note } = req.body;
     const newSector = await prisma.sector.create({
       data: {
         name_sector,
         note,
-        functionId,
       },
     });
     res.json(newSector);
@@ -47,7 +39,7 @@ export const createSector = async (req: Request, res: Response): Promise<void> =
 export const updateSector = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { name_sector, note, functionId } = req.body;
+    const { name_sector, note } = req.body;
 
     // Verificar se o setor existe
     const sectorExists = await findSectorId(parseInt(id));
@@ -57,20 +49,11 @@ export const updateSector = async (req: Request, res: Response): Promise<void> =
     }
     console.log(sectorExists);
 
-    // Verificar se a função existe
-    const functionExists = await findFunctionId(parseInt(functionId));
-    if (!functionExists) {
-      res.status(400).json({ error: `Erro ao atualizar! A função com ID ${functionId} não existe.` });
-      return; // Encerra a função imediatamente se a função não existir
-    }
-    console.log(functionExists);
-
     const updateSector = await prisma.sector.update({
       where: { id: parseInt(id) },
       data: {
         name_sector,
-        note,
-        functionId,
+        note
       },
     });
     res.json(updateSector);
