@@ -15,6 +15,7 @@ const interviewRouter = require('./src/routes/interview');
 const questRouter = require('./src/routes/quest');
 const searchQuestRouter = require('./src/routes/searchQuest');
 const answerRouter = require('./src/routes/answer');
+const path = require('path');
 
 app.use(cors());
 
@@ -34,6 +35,10 @@ app.use('/interview', interviewRouter);
 app.use('/quest', questRouter);
 app.use('/searchQuest', searchQuestRouter);
 app.use('/answer', answerRouter);
+
+
+app.use('/uploads',
+express.static(path.join(__dirname,'uploads')));
 
 const PORT = 3000;
 app.listen(PORT, () => {

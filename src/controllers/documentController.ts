@@ -30,6 +30,7 @@ export const upDocument = async (req: Request, res: Response): Promise<void> => 
 
     if (!file) {
       res.status(400).json({ error: 'Arquivo não encontrado' });
+      return;
     }
 
     // Verifica se o diretório do candidato existe

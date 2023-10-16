@@ -66,6 +66,7 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
       number,
       functionId,
       addressId,
+      locationId,
       stageId } = req.body;
 
     if (!name) {
@@ -90,6 +91,7 @@ export const createApplicant = async (req: Request, res: Response): Promise<void
         number,
         functionId,
         addressId,
+        locationId,
         stageId,
       },
     });
@@ -118,6 +120,7 @@ export const updateApplicant = async (req: Request, res: Response): Promise<void
       number,
       functionId,
       addressId,
+      locationId,
       stageId } = req.body;
     //Verificar id applicant
     const isValidApplicantId = await findApplicantId(applicantId);
@@ -143,6 +146,7 @@ export const updateApplicant = async (req: Request, res: Response): Promise<void
         number,
         functionId,
         addressId,
+        locationId,
         stageId,
       },
     });
@@ -161,7 +165,15 @@ export const getApplicantWithDocuments = async (req: Request, res: Response): Pr
     const getApplicantWithDocuments = await prisma.applicant.findUnique({
       where: { id: parseInt(applicantId) },
       include: {
+        Address: true,
+        Stage: true,
+        Location: true,
         Document: true,
+        Function: {
+          include:{
+            Sector: true
+          }
+        } 
       },
     });
 
