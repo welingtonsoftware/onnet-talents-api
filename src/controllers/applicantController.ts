@@ -165,7 +165,11 @@ export const getApplicantWithDocuments = async (req: Request, res: Response): Pr
     const getApplicantWithDocuments = await prisma.applicant.findUnique({
       where: { id: parseInt(applicantId) },
       include: {
-        Address: true,
+        Address: {
+          include:{
+            neighborhood: true
+          }
+        },
         Stage: true,
         Location: true,
         Document: true,

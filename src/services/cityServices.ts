@@ -31,7 +31,23 @@ async function chekCityExists(cityName: string, uf: string) {
   }
 };
 
+async function getCityById(id: number) {
+try { 
+  const city = await prisma.city.findUnique({
+    where:{
+      id : id
+    },
+  });
+  return city
+  
+} catch (error) {
+  console.log(error)
+    return false
+  }
+}
+
 module.exports = {
   findCityId,
-  chekCityExists
+  chekCityExists,
+  getCityById
 }

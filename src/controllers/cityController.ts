@@ -3,8 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const { findCityId } = require('../services/cityServices');
-const { chekCityExists } = require('../services/cityServices');
+const { findCityId, chekCityExists, getCityById } = require('../services/cityServices');
 
 //List
 export const listCities = async (req: Request, res: Response): Promise<void> => {
@@ -79,3 +78,21 @@ export const deleteCity = async (req: Request, res: Response): Promise<void> => 
     res.status(500).json({error: `Erro ao tentar remover o setor.`});   
   }
 };
+//
+export const getCityId = async (req: Request, res: Response): Promise<void> => {
+try {
+  const cityId = parseInt(req.params.id)
+  const cityExists = await getCityById(cityId);
+    if (!cityExists){
+      res.status(400).json({ error: `Erro ao buscar, a cidade com ID ${cityId} não existe.`});
+      return; //Encerra
+    }
+    console.log(cityExists);
+    res.json(cityExists)
+  
+} catch (error) {
+  console.log(error)
+  res.status(500).json({error: `Erro ao tentar localizar a cidade!`})
+} 
+}
+ 
