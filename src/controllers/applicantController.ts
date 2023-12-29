@@ -1,9 +1,10 @@
 // controllers/ApplicantController.ts
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prismaClient } from '../lib/prisma';
+
 
 const { findApplicantId } = require('../services/applicantServices');
-const prisma = new PrismaClient();
+const prisma = prismaClient;
 
 //List
 export const listApplicants = async (req: Request, res: Response) => {
