@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prismaClient } from '../lib/prisma';
+
 
 const fs = require('fs');
 const express = require('express');
-const prisma = new PrismaClient();
+const prisma = prismaClient;
 const router = express.Router();
 
 const { findApplicantId } = require('../services/applicantServices');
