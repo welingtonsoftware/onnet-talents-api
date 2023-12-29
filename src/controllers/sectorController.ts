@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { prismaClient } from "../lib/prisma";
 
-const prisma = new PrismaClient();
+
+const prisma = prismaClient;
 const { findSectorId } = require("../services/sectorServices");
 
 //List
