@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { prismaClient } from "../lib/prisma";
 
-const prisma = new PrismaClient();
+const prisma = prismaClient;
 
 const { findSearchId } = require('../services/searchServices');
 const { findApplicantId } = require('../services/applicantServices');
