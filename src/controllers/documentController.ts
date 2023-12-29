@@ -114,7 +114,7 @@ export const getByApplicantyId =async (req: Request, res: Response): Promise<voi
     res.json(documentsAplicant);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erro ao buscar documentos do candidado.'});
+    res.status(500).json({ error: 'Erro ao buscar documentos do Candidato.'});
   }
 };
 

@@ -35,7 +35,7 @@ export const createInterview = async (req: Request, res: Response): Promise<void
     //Verificar se existe o candidato.
     const applicantExists = await findApplicantId(parseInt(applicantId));
     if (!applicantExists) {
-      res.status(400).json({ error: `O candidado com Id: ${applicantId} não existe.` });
+      res.status(400).json({ error: `O Candidato com Id: ${applicantId} não existe.` });
       return;
     }
 
@@ -65,7 +65,7 @@ export const updateInterview =async (req: Request, res: Response): Promise<void>
       res.status(404).json({ error: `A entrevista com Id:${id} não existe.`});
       return;
     }
-    //Verificar se o candidado existe
+    //Verificar se o Candidato existe
     const applicantExists = await findApplicantId(applicantId);
     if (!applicantExists){
       res.status(404).json({ error: `O Candidato com Id:${applicantId} informado para entrevista não existe.`});

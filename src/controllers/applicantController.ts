@@ -182,7 +182,7 @@ export const getApplicantWithDocuments = async (req: Request, res: Response): Pr
     });
 
     if (!getApplicantWithDocuments) {
-      res.status(404).json({ error: 'Candidado não encontrato.' });
+      res.status(404).json({ error: 'Candidato não encontrato.' });
       return;
     }
 

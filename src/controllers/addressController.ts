@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { prismaClient } from "../lib/prisma"
 
-const prisma = new PrismaClient();
+
+const prisma = prismaClient;
 
 const { findAddressId } = require('../services/addressServices');
 const { findNeighborhoodId } = require('../services/neighborhoodServices');
@@ -104,7 +105,7 @@ export const getAddressNeighborhoodId = async (req: Request, res: Response): Pro
 
     const neighborhoodId = parseInt(req.params.id);
     const addressNeighborhoodIdExists = await addressByNeighborhoodId(neighborhoodId);
-    console.log('teste', req.params);
+    console.log('teste', req.params)
     if(isNaN(neighborhoodId)){
       throw new Error(`O valor enviado (${ req.params.id }) não é um ID válido.`);
     }
