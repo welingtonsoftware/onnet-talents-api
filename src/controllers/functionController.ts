@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { prismaClient } from "../lib/prisma";
 
 const { findFunctionId } = require('../services/functionServices');
 const { chekFunctionExists } = require('../services/functionServices');
 
-const prisma = new PrismaClient();
+const prisma = prismaClient;
 
 //List
 export const listFunctions = async (req: Request, res: Response): Promise<void> => {
