@@ -3,34 +3,67 @@ import { prismaClient } from "../lib/prisma";
 
 const prisma = prismaClient;
 
-const { findQuestId } = require('../services/questServices');
-const { findInterviewId } = require('../services/interviewServices');
-const { findAnswerId } = require('../services/answerServices');
+const { findQuestId } = require("../services/questServices");
+const { findInterviewId } = require("../services/interviewServices");
+const { findAnswerId } = require("../services/answerServices");
 
 //List
-export const listAnswers = async (req: Request, res: Response): Promise<void> => {
+export const listAnswers = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const answers = await prisma.answer.findMany();
     res.json(answers);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erro ao listar respostas.' });
+    res.status(500).json({ error: "Erro ao listar respostas." });
   }
 };
-//Create
-export const createAnswer = async (req: Request, res: Response): Promise<void> => {
+
+export const getAnswerById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const answerId = parseInt(req.params.id);
+    const answer = await findAnswerId(answerId);
+
+    if (!answer) {
+      const errorMessage = `O Id: ${answerId} não existe.`;
+      res.status(404).json({ error: errorMessage });
+      return;
+    }
+    res.json(answer);
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao listar " });
+  }
+};
+
+export const createAnswer = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { answer_text, correct, questId, interviewId } = req.body;
 
     const questionExist = await findQuestId(questId);
     if (!questionExist) {
-      res.status(404).json({ error: `O Id:${questId} da pesquisa enviada não foi encontrado.` });
+      res
+        .status(404)
+        .json({
+          error: `O Id:${questId} da pesquisa enviada não foi encontrado.`,
+        });
       return;
     }
-    
+
     const interviewExist = await findInterviewId(interviewId);
     if (!interviewExist) {
-      res.status(404).json({ error: `O Id:${interviewId} da entrevista enviada não foi encontrado.` });
+      res
+        .status(404)
+        .json({
+          error: `O Id:${interviewId} da entrevista enviada não foi encontrado.`,
+        });
       return;
     }
 
@@ -43,14 +76,18 @@ export const createAnswer = async (req: Request, res: Response): Promise<void> =
       },
     });
     res.json(newAnswer);
-
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erro ao cadastrar a resposta. | ' + error + ' |' });
+    res
+      .status(500)
+      .json({ error: "Erro ao cadastrar a resposta. | " + error + " |" });
   }
 };
 //Update
-export const updateAnswer = async (req: Request, res: Response): Promise<void> => {
+export const updateAnswer = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const answerId = parseInt(req.params.id);
     const { answer_text, correct, questId, interviewId } = req.body;
@@ -83,17 +120,20 @@ export const updateAnswer = async (req: Request, res: Response): Promise<void> =
         correct,
         questId,
         interviewId,
-      }
+      },
     });
     res.json(updateAnswer);
   } catch (error) {
-    console.error('Erro: ', error);
-    res.status(500).json({ error: 'Erro ao atualizar a resposta.' });
+    console.error("Erro: ", error);
+    res.status(500).json({ error: "Erro ao atualizar a resposta." });
   }
 };
 
 // Delete
-export const deleteAnswer = async (req: Request, res: Response): Promise<void> => {
+export const deleteAnswer = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const answerId = parseInt(req.params.id);
     const answerExists = await findAnswerId(answerId);
@@ -101,17 +141,16 @@ export const deleteAnswer = async (req: Request, res: Response): Promise<void> =
     if (!answerExists) {
       const errorMessage = `A resposta com ID ${answerId} não existe`;
       res.status(404).json({ error: errorMessage });
-      console.log('aqui: ', errorMessage);
+      console.log("aqui: ", errorMessage);
       return;
     }
 
     await prisma.answer.delete({
-      where: { id: answerId }
+      where: { id: answerId },
     });
-    res.json({ message: 'Resposta removida com sucesso.' });
-
+    res.json({ message: "Resposta removida com sucesso." });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erro ao remover resposta.' + error });
+    res.status(500).json({ error: "Erro ao remover resposta." + error });
   }
 };
